@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.qbilon</groupId>
+    <artifactId>osgi-gremlin-driver</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+    <packaging>bundle</packaging>
+    <name>My Wrapping Bundle</name>
+
+    <description>This OSGi bundle simply wraps the gremlin-driver artifact.</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.tinkerpop</groupId>
+            <artifactId>gremlin-driver</artifactId>
+            <version>3.4.4</version>
+            <optional>false</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tinkerpop</groupId>
+            <artifactId>gremlin-driver</artifactId>
+            <version>3.4.4</version>
+            <optional>false</optional>
+            <classifier>sources</classifier>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>4.2.1</version>
+				<extensions>true</extensions>
+				<dependencies>
+					<dependency>
+						<groupId>biz.aQute.bnd</groupId>
+						<artifactId>biz.aQute.bndlib</artifactId>
+						<version>5.0.0</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                        <Bundle-Version>${project.version}</Bundle-Version>
+                        <Export-Package>
+                            org.apache.tinkerpop.gremlin.*;-split-package:=merge-first
+                        </Export-Package>
+                        <Import-Package>
+                            !com.jcabi.manifests*,
+                            !com.jcabi.log*,
+                            !com.squareup.javapoet*,
+                            !net.objecthunter.exp4j*,
+                            !org.apache.tinkerpop.shaded*,
+                            *
+                        </Import-Package>
+                        <Private-Package>
+                            com.jcabi.manifests*,
+                            com.jcabi.log*,
+                            com.squareup.javapoet*,
+                            net.objecthunter.exp4j*,
+                            org.apache.tinkerpop.shaded*
+                        </Private-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+        </plugins>
+    </build>
+</project>
